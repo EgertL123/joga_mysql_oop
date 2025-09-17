@@ -40,7 +40,11 @@ class ArticleModel extends BaseSQLModel {
         // Call the base update method only with the updated fields
         const affectedRows = await super.update(id, sanitizedUpdate);
         return affectedRows;
+    }
 
+    async delete(id) {
+        const deletedArticle = await super.delete(id);
+        return deletedArticle;
     }
 }
 
