@@ -5,6 +5,7 @@ const userModel = new userDbModel();
 class userController {
 
     async register (req, res) {
+        const { username, email, password, role = 'user' } = req.body;
         const existingUser = await userModel.findOne(req.body.username);
         if(existingUser) {
             return res.status(400).json({
@@ -49,7 +50,8 @@ class userController {
 
             req.session.user = {
                 username: user.username,
-                user_id: user.id
+                user_id: user.id,
+                role: user.role
             };
 
             res.json({
@@ -81,6 +83,15 @@ class userController {
             res.json({ message: 'Internal server error' });
         }
     }
+
+    async adminOnly(req, res) {
+        if (req.session.user && req.session.user.role === 'admin') {
+            res.json({ message: 'Welcome, Admin!' });
+        } else {
+            res.status(403).json({ message: 'Access denied.' });
+        }
+    }
+
 }
 
 module.exports = new userController;

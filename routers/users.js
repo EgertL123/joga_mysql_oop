@@ -8,4 +8,6 @@ router.post('/login', (req, res) => userController.login(req, res));
 
 router.get('/logout', (req, res) => userController.logout(req, res));
 
+router.get('/admin', (req, res) => userController.adminOnly(req, res))
+
 module.exports = router;
